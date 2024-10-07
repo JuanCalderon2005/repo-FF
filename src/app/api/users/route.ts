@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { IResponseCreateUser, IUserRegistered } from '../../../types/userInterface';
 
 export async function createUser(userData: IUserRegistered): Promise<IResponseCreateUser> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, {
+    const res = await fetch(`http://192.168.88.39:7000/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

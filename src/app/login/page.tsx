@@ -65,7 +65,6 @@ const LoginPage = () => {
     }
 
     toast.success("Login exitoso");
-    router.push("/dashboard");
   };
 
   return (

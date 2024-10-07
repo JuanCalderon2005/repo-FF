@@ -46,7 +46,7 @@ const handler:NextAuthOptions = NextAuth({
         if (!credentials) return null;
 
         const res: Response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+          `http://192.168.88.39:7000/auth/login`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -58,7 +58,6 @@ const handler:NextAuthOptions = NextAuth({
         );
 
         if (!res.ok) {
-          // Si la respuesta no es exitosa, retornar null
           return null;
         }
 
