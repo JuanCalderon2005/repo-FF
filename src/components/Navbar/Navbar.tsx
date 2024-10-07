@@ -11,8 +11,6 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <Container>
-        <NavLink href="/">{traduction('home')}</NavLink>
-        
         {session?.user ? (
           <>
             <NavLink href="/dashboard">{traduction('dashboard')}</NavLink>

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Input from "../../components/UI/Input/Input"
 import Button from "../../components/UI/Button/Button"
 
-// Estilos usando styled-components
+
 const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -65,6 +65,8 @@ const LoginPage = () => {
     }
 
     toast.success("Login exitoso");
+    router.push("/dashboard");
+
   };
 
   return (
@@ -85,7 +87,7 @@ const LoginPage = () => {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <Button type="submit" label="Login"/>
+        <Button type="submit" label="Login" />
       </Form>
 
       {errors.length > 0 && (

@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
+import {persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import exampleReducer from './slices/exampleSlice';
 import { createWrapper } from 'next-redux-wrapper';
+import { cartSlice } from './slices/cartSlice';
 
 export const createStore = () =>
   configureStore({
     reducer: {
+      cart: cartSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
@@ -16,8 +17,8 @@ export const createStore = () =>
 
 
 export type AppStore = ReturnType<typeof createStore>;
-export type RootState = ReturnType<AppStore['getState']>; 
-export type AppDispatch = AppStore['dispatch']; 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const wrapper = createWrapper<AppStore>(createStore);
 

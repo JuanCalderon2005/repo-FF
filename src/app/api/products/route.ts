@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { IProduct } from '../../../types/productInterface';
+import axios from 'axios';
 
 export interface IResponse<T> {
   status: number;         
@@ -8,7 +9,7 @@ export interface IResponse<T> {
 }
 
 async function fetchProductsFromBackend(token: string): Promise<IProduct[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/products`, {
+  const res = await fetch(`http://192.168.88.39:7000/auth/products`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -37,4 +38,14 @@ export async function GET(request: Request): Promise<IResponse<IProduct[]>> {
     return NextResponse.json({ status: 500, error: 'Error al obtener los productos' });
   }
 }
+
+export const getProductById = async (productId: string): Promise<IProduct | null> => {
+  try {
+    const response = await axios.get(`/api/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener el producto:', error);
+    return null;
+  }
+};
 

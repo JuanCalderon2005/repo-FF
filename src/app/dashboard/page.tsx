@@ -6,6 +6,7 @@ import Card from "../../components/Card/Card";
 import { IProduct } from "../../types/productInterface";
 import styled from "styled-components";
 import { Session } from "next-auth";
+import { useRouter } from "next/navigation";
 
 const Div = styled.div`
   display: flex;
@@ -42,13 +43,15 @@ interface IUser {
   }
 
 interface IResponse<T> {
-    status: number;         // Código de estado HTTP
-    data?: T;              // Datos devueltos (puede ser un array de productos, etc.)
-    error?: string;        // Mensaje de error (opcional)
+    status: number;         
+    data?: T;              
+    error?: string;        
   }  
 
 // Componente ProductsPage
 const ProductsPage: React.FC= () => {
+
+    const router = useRouter();
   const { data: session, status }: { data: SessionAuthenticate | null; status: "loading" | "authenticated" | "unauthenticated" } = useSession();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [ loadingProducts, setLoadingProducts] = useState(true);

@@ -11,30 +11,30 @@ interface Credentials {
 }
 
 interface IUser {
-  _id:      string;
-  email:    string;
+  _id: string;
+  email: string;
   username: string;
-  name:     string;
-  phone:    string;
-  __v:      number;
+  name: string;
+  phone: string;
+  __v: number;
 }
 
 interface UserAuthenticate extends User {
   access_token?: string;
-  user:         IUser; 
+  user: IUser;
 }
 
 interface SessionAuthenticate extends Session {
   access_token: string;
-  user:         IUser;   
+  user: IUser;
 }
 
 interface JWTAuthenticate extends JWT {
   access_token: string;
-  user:         IUser;
+  user: IUser;
 }
 
-const handler:NextAuthOptions = NextAuth({
+const handler: NextAuthOptions = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -57,6 +57,8 @@ const handler:NextAuthOptions = NextAuth({
           }
         );
 
+      
+
         if (!res.ok) {
           return null;
         }
@@ -75,21 +77,26 @@ const handler:NextAuthOptions = NextAuth({
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
-    async jwt({ token, user }: { token: JWTAuthenticate, user: UserAuthenticate | AdapterUser}) {
-      // Asegurarse de que user es de tipo IAuthUser
+    async jwt({ token, user }: { token: JWTAuthenticate, user: UserAuthenticate | AdapterUser }) {
+
+
+      
       if (user) {
         token.accessToken = (user as UserAuthenticate).access_token;
+        token.user = (user as UserAuthenticate).user;
       }
       return token;
     },
-    async session({ session, token }:{session: SessionAuthenticate, token: JWT}) {
-      session.access_token = token.accessToken as string;  
+    async session({ session, token }: { session: SessionAuthenticate, token: JWT }) {
+      session.access_token = token.accessToken as string;
+      session.user = token.user as IUser;
       return session;
     },
-  },
-  pages: {
-    signIn: "/login",
   },
 });
 
